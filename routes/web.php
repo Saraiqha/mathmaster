@@ -26,6 +26,10 @@ Route::get('/topics', [App\Http\Controllers\TopicController::class, 'index'])
      ->middleware(['auth'])
      ->name('topics.index');
 
+Route::get('/topics/{topic}/revision', [App\Http\Controllers\TopicController::class, 'revision'])
+     ->middleware(['auth'])
+     ->name('topics.revision');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

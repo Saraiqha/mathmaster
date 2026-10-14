@@ -19,4 +19,9 @@ class Topic extends Model
     {
         return $this->hasMany(DifficultyLevel::class);
     }
+
+    public function quickRevision()
+    {
+        return $this->hasOne(QuickRevision::class);
+    }
 }

@@ -16,4 +16,10 @@ class TopicController extends Controller
 
         return view('topics.index', compact('topics'));
     }
+
+    public function revision(Topic $topic)
+    {
+        $revision = $topic->quickRevision;
+        return view('topics.revision', compact('topic', 'revision'));
+    }   
 }

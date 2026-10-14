@@ -37,8 +37,8 @@
                     @endforeach
                 </div>
 
-                <a href="#" class="block mt-4 text-center bg-blue-600 text-white text-xs font-medium px-4 py-2 rounded-lg hover:bg-blue-700">
-                    Start Practice →
+                <a href="{{ route('topics.revision', $topic->id) }}" class="block mt-4 text-center bg-blue-600 text-white text-xs font-medium px-4 py-2 rounded-lg hover:bg-blue-700">
+                Start Practice →
                 </a>
 
             </div>

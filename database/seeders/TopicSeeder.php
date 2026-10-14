@@ -11,42 +11,42 @@ class TopicSeeder extends Seeder
     public function run(): void
     {
         $topics = [
-            [
-                'name' => 'Quadratic Functions',
-                'name_bm' => 'Fungsi Kuadratik',
-                'description' => 'Study of quadratic expressions, equations and graphs.',
-                'description_bm' => 'Kajian ungkapan kuadratik, persamaan dan graf.',
-                'order' => 1,
-            ],
-            [
-                'name' => 'Number Bases',
-                'name_bm' => 'Asas Nombor',
-                'description' => 'Understanding number systems in different bases.',
-                'description_bm' => 'Memahami sistem nombor dalam pelbagai asas.',
-                'order' => 2,
-            ],
-            [
-                'name' => 'Logical Reasoning',
-                'name_bm' => 'Penaakulan Logik',
-                'description' => 'Study of statements, arguments and logical deduction.',
-                'description_bm' => 'Kajian pernyataan, hujah dan deduksi logik.',
-                'order' => 3,
-            ],
-            [
-                'name' => 'Straight Lines',
-                'name_bm' => 'Garis Lurus',
-                'description' => 'Understanding gradients, equations and graphs of straight lines.',
-                'description_bm' => 'Memahami kecerunan, persamaan dan graf garis lurus.',
-                'order' => 4,
-            ],
-            [
-                'name' => 'Statistics',
-                'name_bm' => 'Statistik',
-                'description' => 'Collection, organisation and interpretation of data.',
-                'description_bm' => 'Pengumpulan, penyusunan dan pentafsiran data.',
-                'order' => 5,
-            ],
-        ];
+    [
+        'name' => 'Quadratic Functions and Equations',
+        'name_bm' => 'Fungsi dan Persamaan Kuadratik',
+        'description' => 'Study of quadratic expressions, equations and graphs.',
+        'description_bm' => 'Kajian ungkapan kuadratik, persamaan dan graf.',
+        'order' => 1,
+    ],
+    [
+        'name' => 'Number Bases',
+        'name_bm' => 'Asas Nombor',
+        'description' => 'Understanding number systems in different bases.',
+        'description_bm' => 'Memahami sistem nombor dalam pelbagai asas.',
+        'order' => 2,
+    ],
+    [
+        'name' => 'Logical Reasoning',
+        'name_bm' => 'Penaakulan Logik',
+        'description' => 'Study of statements, arguments and logical deduction.',
+        'description_bm' => 'Kajian pernyataan, hujah dan deduksi logik.',
+        'order' => 3,
+    ],
+    [
+        'name' => 'Operation on Sets',
+        'name_bm' => 'Operasi pada Set',
+        'description' => 'Understanding union, intersection and complement of sets.',
+        'description_bm' => 'Memahami kesatuan, persilangan dan pelengkap set.',
+        'order' => 4,
+    ],
+    [
+        'name' => 'Network in Graph Theory',
+        'name_bm' => 'Rangkaian dalam Teori Graf',
+        'description' => 'Study of networks, vertices, edges and graph traversal.',
+        'description_bm' => 'Kajian rangkaian, bucu, tepi dan penelusuran graf.',
+        'order' => 5,
+    ],
+];
 
         foreach ($topics as $topicData) {
             $topic = Topic::create($topicData);
