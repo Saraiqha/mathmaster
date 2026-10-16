@@ -15,6 +15,11 @@ class DatabaseSeeder extends Seeder
     $this->call([
         TopicSeeder::class,
         QuickRevisionSeeder::class,
+        QuadraticQuestionSeeder::class,
+        NumberBasesQuestionSeeder::class,
+        LogicalReasoningQuestionSeeder::class,
+        OperationSetsQuestionSeeder::class,
+        NetworkGraphQuestionSeeder::class,
     ]);
 }
 }

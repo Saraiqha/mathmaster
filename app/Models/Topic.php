@@ -24,4 +24,9 @@ class Topic extends Model
     {
         return $this->hasOne(QuickRevision::class);
     }
+
+    public function questions()
+    {
+    return $this->hasMany(Question::class);
+    }
 }
