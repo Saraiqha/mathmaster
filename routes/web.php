@@ -34,6 +34,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/practice/{topic}/difficulty', [App\Http\Controllers\PracticeController::class, 'selectDifficulty'])->name('practice.difficulty');
+    Route::get('/practice/{topic}/{difficulty}/count', [App\Http\Controllers\PracticeController::class, 'selectCount'])->name('practice.count');
+    Route::post('/practice/{topic}/{difficulty}/start', [App\Http\Controllers\PracticeController::class, 'start'])->name('practice.start');
+    Route::get('/practice/session/{session}', [App\Http\Controllers\PracticeController::class, 'question'])->name('practice.question');
+    Route::post('/practice/session/{session}/answer', [App\Http\Controllers\PracticeController::class, 'answer'])->name('practice.answer');
+    Route::get('/practice/session/{session}/summary', [App\Http\Controllers\PracticeController::class, 'summary'])->name('practice.summary');
+});
+
 });
 
 require __DIR__.'/auth.php';

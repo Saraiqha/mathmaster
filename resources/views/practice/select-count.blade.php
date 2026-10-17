@@ -1,0 +1,64 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            Number of Questions — {{ $topic->name }}
+        </h2>
+    </x-slot>
+
+    <div class="py-8 px-6 max-w-2xl mx-auto">
+
+        <div class="bg-white border border-gray-200 rounded-xl p-6 mb-6">
+            <h3 class="text-base font-semibold text-gray-700 mb-1">{{ $topic->name }}</h3>
+            <p class="text-xs text-gray-400">
+                Difficulty:
+                <span class="font-medium
+                    @if($difficulty === 'easy') text-green-600
+                    @elseif($difficulty === 'medium') text-yellow-600
+                    @else text-red-600
+                    @endif">
+                    {{ ucfirst($difficulty) }}
+                </span>
+            </p>
+        </div>
+
+        <h4 class="text-sm font-semibold text-gray-700 mb-4">How many questions do you want to practise?</h4>
+
+        <form method="POST" action="{{ route('practice.start', [$topic->id, $difficulty]) }}">
+            @csrf
+
+            <div class="grid grid-cols-3 gap-3 mb-6">
+                @foreach([5, 10, 15] as $count)
+                <label class="cursor-pointer">
+                    <input type="radio" name="count" value="{{ $count }}" class="hidden peer"
+                        {{ $count === 5 ? 'checked' : '' }}>
+                    <div class="bg-white border-2 border-gray-200 rounded-xl p-5 text-center
+                        peer-checked:border-blue-500 peer-checked:bg-blue-50 transition">
+                        <div class="text-2xl font-bold text-gray-800">{{ $count }}</div>
+                        <div class="text-xs text-gray-400 mt-1">questions</div>
+                    </div>
+                </label>
+                @endforeach
+            </div>
+
+            <div class="bg-yellow-50 border border-yellow-100 rounded-xl p-4 mb-6">
+                <p class="text-xs text-yellow-700">
+                    💡 Questions are randomly selected from our bank with a balanced mix of
+                    MCQ, True/False, Numerical and Multiple Response types.
+                </p>
+            </div>
+
+            <div class="flex gap-3">
+                <a href="{{ route('practice.difficulty', $topic->id) }}"
+                    class="px-5 py-2 text-sm font-medium bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200">
+                    ← Back
+                </a>
+                <button type="submit"
+                    class="px-6 py-2 text-sm font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    Start Practice →
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</x-app-layout>

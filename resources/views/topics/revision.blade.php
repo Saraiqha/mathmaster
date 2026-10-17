@@ -60,7 +60,7 @@
                 class="px-5 py-2 text-sm font-medium bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200">
                 ← Back to Topics
             </a>
-            <a href="#"
+            <a href="{{ route('practice.difficulty', $topic->id) }}"
                 class="px-5 py-2 text-sm font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700">
                 Start Practice →
             </a>
