@@ -1,22 +1,28 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-teal-800 leading-tight">
-            Topics
+            <span class="lang-en">Topics</span>
+            <span class="lang-bm hidden">Topik</span>
         </h2>
     </x-slot>
 
     <div class="py-8 px-6 max-w-6xl mx-auto">
 
         <div class="mb-7">
-            <h3 class="text-2xl font-bold text-gray-800">Select a Topic</h3>
-            <p class="text-gray-400 text-sm mt-1">Choose a topic to start practising. Complete Easy before unlocking Medium and Hard.</p>
+            <h3 class="text-2xl font-bold text-gray-800">
+                <span class="lang-en">Select a Topic</span>
+                <span class="lang-bm hidden">Pilih Topik</span>
+            </h3>
+            <p class="text-gray-400 text-sm mt-1">
+                <span class="lang-en">Choose a topic to start practising. Complete Easy before unlocking Medium and Hard.</span>
+                <span class="lang-bm hidden">Pilih topik untuk mula berlatih. Selesaikan Mudah sebelum membuka kunci Sederhana dan Sukar.</span>
+            </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($topics as $topic)
             <div class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md transition">
 
-                {{-- Topic Icon + Name --}}
                 <div class="flex items-start gap-3 mb-4">
                     <div class="w-10 h-10 bg-teal-50 rounded-xl flex items-center justify-center text-lg flex-shrink-0">
                         @if($loop->index === 0) 📐
@@ -27,12 +33,15 @@
                         @endif
                     </div>
                     <div>
-                        <h4 class="text-sm font-bold text-gray-800 leading-snug">{{ $topic->name }}</h4>
-                        <p class="text-xs text-gray-400 mt-0.5">{{ $topic->name_bm }}</p>
+                        <h4 class="text-sm font-bold text-gray-800 leading-snug lang-en">{{ $topic->name }}</h4>
+                        <h4 class="text-sm font-bold text-gray-800 leading-snug lang-bm hidden">{{ $topic->name_bm }}</h4>
+                        <p class="text-xs text-gray-400 mt-0.5 lang-en">{{ $topic->name_bm }}</p>
+                        <p class="text-xs text-gray-400 mt-0.5 lang-bm hidden">{{ $topic->name }}</p>
                     </div>
                 </div>
 
-                <p class="text-xs text-gray-500 mb-5 leading-relaxed">{{ $topic->description }}</p>
+                <p class="text-xs text-gray-500 mb-5 leading-relaxed lang-en">{{ $topic->description }}</p>
+                <p class="text-xs text-gray-500 mb-5 leading-relaxed lang-bm hidden">{{ $topic->description_bm }}</p>
 
                 {{-- Difficulty Levels --}}
                 <div class="flex gap-2 mb-5">
@@ -54,17 +63,33 @@
                             $bgClass = 'bg-rose-50 text-rose-600 border border-rose-200';
                             $icon = '🔴';
                         }
+
+                        $levelLabels = [
+                            'easy' => ['en' => 'Easy', 'bm' => 'Mudah'],
+                            'medium' => ['en' => 'Medium', 'bm' => 'Sederhana'],
+                            'hard' => ['en' => 'Hard', 'bm' => 'Sukar'],
+                        ];
                     @endphp
                     <div class="flex-1 text-center py-2 rounded-lg text-xs font-medium {{ $bgClass }}">
-                        {{ $icon }} {{ ucfirst($level->level) }}
+                        {{ $icon }}
+                        <span class="lang-en">{{ $levelLabels[$level->level]['en'] }}</span>
+                        <span class="lang-bm hidden">{{ $levelLabels[$level->level]['bm'] }}</span>
                     </div>
                     @endforeach
                 </div>
 
-                <a href="{{ route('topics.revision', $topic->id) }}"
-                    class="block text-center bg-teal-600 text-white text-xs font-semibold px-4 py-2.5 rounded-xl hover:bg-teal-700 transition">
-                    Start Practice →
-                </a>
+                <div class="flex gap-2">
+                    <a href="{{ route('topics.notes', $topic->id) }}"
+                        class="flex-1 text-center bg-sky-50 text-sky-700 border border-sky-200 text-xs font-semibold px-4 py-2.5 rounded-xl hover:bg-sky-100 transition">
+                        <span class="lang-en">📖 Learn</span>
+                        <span class="lang-bm hidden">📖 Belajar</span>
+                    </a>
+                    <a href="{{ route('topics.revision', $topic->id) }}"
+                        class="flex-1 text-center bg-teal-600 text-white text-xs font-semibold px-4 py-2.5 rounded-xl hover:bg-teal-700 transition">
+                        <span class="lang-en">✏️ Practice</span>
+                        <span class="lang-bm hidden">✏️ Latihan</span>
+                    </a>
+                </div>
 
             </div>
             @endforeach

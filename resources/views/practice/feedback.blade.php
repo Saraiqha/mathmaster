@@ -66,13 +66,32 @@
         </div>
 
         {{-- Step by Step Solution --}}
-        <div class="bg-gradient-to-br from-teal-50 to-sky-50 border border-teal-100 rounded-2xl p-6 mb-6 shadow-sm">
-            <h4 class="text-sm font-bold text-teal-800 mb-3">📖 Step-by-Step Solution</h4>
-            <p class="text-sm text-gray-700 leading-relaxed lang-en">{{ $question->solution_steps }}</p>
-            <p class="text-sm text-gray-700 leading-relaxed lang-bm hidden">{{ $question->solution_steps_bm }}</p>
+        <div class="space-y-2 lang-en">
+            @foreach(preg_split('/(?=Step \d+:)/', $question->solution_steps, -1, PREG_SPLIT_NO_EMPTY) as $step)
+            <div class="flex gap-2 text-sm text-gray-700">
+                @if(preg_match('/^(Step \d+:)(.*)/', trim($step), $m))
+                    <span class="text-teal-600 font-semibold flex-shrink-0 w-16">{{ trim($m[1]) }}</span>
+                    <span>{{ trim($m[2]) }}</span>
+                @else
+                    <span>{{ trim($step) }}</span>
+                @endif
+            </div>
+            @endforeach
+        </div>
+        <div class="space-y-2 lang-bm hidden">
+            @foreach(preg_split('/(?=Langkah \d+:)/', $question->solution_steps_bm, -1, PREG_SPLIT_NO_EMPTY) as $step)
+            <div class="flex gap-2 text-sm text-gray-700">
+                @if(preg_match('/^(Langkah \d+:)(.*)/', trim($step), $m))
+                    <span class="text-teal-600 font-semibold flex-shrink-0 w-20">{{ trim($m[1]) }}</span>
+                    <span>{{ trim($m[2]) }}</span>
+                @else
+                    <span>{{ trim($step) }}</span>
+                @endif
+            </div>
+            @endforeach
         </div>
 
-        {{-- Next Button --}}
+        {{-- Next Button }}
         <div class="text-center">
             @if($isLastQuestion)
             <a href="{{ route('practice.summary', $session->id) }}"

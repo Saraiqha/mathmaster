@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-teal-100 shadow-sm">
+<nav x-data="{ open: false }" class="bg-white border-b border-teal-100 shadow-sm" id="main-nav">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -20,6 +20,17 @@
                         {{ __('Topics') }}
                     </x-nav-link>
                 </div>
+            </div>
+
+            <!-- Language Toggle -->
+            <div class="hidden sm:flex sm:items-center sm:ms-4">
+                <button onclick="toggleLang()" id="lang-toggle"
+                    class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-teal-200 text-teal-700 bg-teal-50 hover:bg-teal-100 transition">
+                    <span id="lang-label">EN</span>
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.12"/>
+                    </svg>
+                </button>
             </div>
 
             <!-- Settings Dropdown -->
@@ -101,4 +112,34 @@
             </div>
         </div>
     </div>
+
+    <script>
+    // Global language toggle — persists across pages
+    function toggleLang() {
+        const current = localStorage.getItem('mm_lang') || 'en';
+        const next = current === 'en' ? 'bm' : 'en';
+        setLang(next);
+    }
+
+    function setLang(lang) {
+        localStorage.setItem('mm_lang', lang);
+        document.documentElement.setAttribute('data-lang', lang);
+        const label = document.getElementById('lang-label');
+        if (label) label.textContent = lang === 'en' ? 'EN' : 'BM';
+
+        // Show/hide all lang elements
+        document.querySelectorAll('.lang-en').forEach(el => {
+            el.classList.toggle('hidden', lang !== 'en');
+        });
+        document.querySelectorAll('.lang-bm').forEach(el => {
+            el.classList.toggle('hidden', lang !== 'bm');
+        });
+    }
+
+    // Apply saved language on every page load
+    document.addEventListener('DOMContentLoaded', function () {
+        const saved = localStorage.getItem('mm_lang') || 'en';
+        setLang(saved);
+    });
+    </script>
 </nav>

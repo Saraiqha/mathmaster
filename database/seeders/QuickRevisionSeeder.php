@@ -12,15 +12,15 @@ class QuickRevisionSeeder extends Seeder
     {
         $revisions = [
     [
-        'topic' => 'Quadratic Functions and Equations',
-        'objectives' => 'Understand quadratic functions, sketch graphs and solve quadratic equations.',
-        'objectives_bm' => 'Memahami fungsi kuadratik, melukis graf dan menyelesaikan persamaan kuadratik.',
-        'key_formulas' => 'General form: f(x) = ax² + bx + c | Vertex form: f(x) = a(x-h)² + k | Quadratic formula: x = (-b ± √(b²-4ac)) / 2a',
-        'key_formulas_bm' => 'Bentuk am: f(x) = ax² + bx + c | Bentuk bucu: f(x) = a(x-h)² + k | Rumus kuadratik: x = (-b ± √(b²-4ac)) / 2a',
-        'solving_tips' => 'Always check the value of a first. If a > 0 the parabola opens upward, if a < 0 it opens downward. The axis of symmetry is x = -b/2a.',
-        'solving_tips_bm' => 'Sentiasa semak nilai a dahulu. Jika a > 0 parabola membuka ke atas, jika a < 0 membuka ke bawah. Paksi simetri ialah x = -b/2a.',
-        'worked_example' => 'Find the vertex of f(x) = 2x² - 8x + 6. Step 1: h = -(-8)/2(2) = 2. Step 2: k = 2(2)² - 8(2) + 6 = -2. Vertex = (2, -2).',
-        'worked_example_bm' => 'Cari bucu bagi f(x) = 2x² - 8x + 6. Langkah 1: h = -(-8)/2(2) = 2. Langkah 2: k = 2(2)² - 8(2) + 6 = -2. Bucu = (2, -2).',
+    'topic' => 'Quadratic Functions and Equations',
+    'objectives' => 'Identify quadratic expressions (highest power 2, one variable). Recognise and sketch graphs of f(x) = ax² + bx + c for a > 0 and a < 0. Determine axis of symmetry, vertex and y-intercept. Solve quadratic equations using factorisation and graphical method.',
+    'objectives_bm' => 'Kenal pasti ungkapan kuadratik (kuasa tertinggi 2, satu pemboleh ubah). Kenal dan lakar graf f(x) = ax² + bx + c untuk a > 0 dan a < 0. Tentukan paksi simetri, bucu dan pintasan-y. Selesaikan persamaan kuadratik menggunakan kaedah pemfaktoran dan kaedah grafik.',
+    'key_formulas' => 'Quadratic Expression: ax² + bx + c (a ≠ 0) | Quadratic Function: f(x) = ax² + bx + c | Shape: a > 0 opens upward ∪ (minimum), a < 0 opens downward ∩ (maximum) | Axis of symmetry: x = -b/2a | b < 0: axis right of y-axis | b > 0: axis left of y-axis | b = 0: axis is y-axis | y-intercept: f(0) = c | Quadratic Equation: ax² + bx + c = 0 | Roots found by: (a) factorisation (b) graphical method',
+    'key_formulas_bm' => 'Ungkapan Kuadratik: ax² + bx + c (a ≠ 0) | Fungsi Kuadratik: f(x) = ax² + bx + c | Bentuk: a > 0 membuka ke atas ∪ (minimum), a < 0 membuka ke bawah ∩ (maksimum) | Paksi simetri: x = -b/2a | b < 0: paksi di kanan paksi-y | b > 0: paksi di kiri paksi-y | b = 0: paksi ialah paksi-y | Pintasan-y: f(0) = c | Persamaan Kuadratik: ax² + bx + c = 0 | Punca dicari dengan: (a) pemfaktoran (b) kaedah grafik',
+    'solving_tips' => 'Step 1: Identify a, b, c from f(x) = ax² + bx + c. Step 2: Check sign of a — positive means ∪ shape (minimum), negative means ∩ shape (maximum). Step 3: Find axis of symmetry using x = -b/2a. Step 4: Find vertex by substituting axis value into f(x). Step 5: Find y-intercept by substituting x = 0 (answer is always c). Step 6: For roots, set f(x) = 0 and factorise.',
+    'solving_tips_bm' => 'Langkah 1: Kenal pasti a, b, c daripada f(x) = ax² + bx + c. Langkah 2: Semak tanda a — positif bermakna bentuk ∪ (minimum), negatif bermakna bentuk ∩ (maksimum). Langkah 3: Cari paksi simetri menggunakan x = -b/2a. Langkah 4: Cari bucu dengan menggantikan nilai paksi ke dalam f(x). Langkah 5: Cari pintasan-y dengan menggantikan x = 0 (jawapan sentiasa c). Langkah 6: Untuk punca, tetapkan f(x) = 0 dan faktorkan.',
+    'worked_example' => 'Given f(x) = 2x² - 8x + 6. Find axis of symmetry, vertex, y-intercept and roots. Step 1: a = 2 > 0, so parabola opens upward (∪), has minimum point. Step 2: Axis of symmetry: x = -(-8)/2(2) = 8/4 = 2. Step 3: Vertex (minimum): f(2) = 2(4) - 8(2) + 6 = 8 - 16 + 6 = -2. Vertex = (2, -2). Step 4: y-intercept: f(0) = c = 6. Step 5: Roots: 2x² - 8x + 6 = 0 → x² - 4x + 3 = 0 → (x-1)(x-3) = 0 → x = 1 or x = 3.',
+    'worked_example_bm' => 'Diberi f(x) = 2x² - 8x + 6. Cari paksi simetri, bucu, pintasan-y dan punca. Langkah 1: a = 2 > 0, maka parabola membuka ke atas (∪), mempunyai titik minimum. Langkah 2: Paksi simetri: x = -(-8)/2(2) = 8/4 = 2. Langkah 3: Bucu (minimum): f(2) = 2(4) - 8(2) + 6 = 8 - 16 + 6 = -2. Bucu = (2, -2). Langkah 4: Pintasan-y: f(0) = c = 6. Langkah 5: Punca: 2x² - 8x + 6 = 0 → x² - 4x + 3 = 0 → (x-1)(x-3) = 0 → x = 1 atau x = 3.',
     ],
     [
         'topic' => 'Number Bases',
@@ -69,20 +69,20 @@ class QuickRevisionSeeder extends Seeder
 ];
 
         foreach ($revisions as $data) {
-            $topic = Topic::where('name', $data['topic'])->first();
-            if ($topic) {
-                QuickRevision::create([
-                    'topic_id' => $topic->id,
-                    'objectives' => $data['objectives'],
-                    'objectives_bm' => $data['objectives_bm'],
-                    'key_formulas' => $data['key_formulas'],
-                    'key_formulas_bm' => $data['key_formulas_bm'],
-                    'solving_tips' => $data['solving_tips'],
-                    'solving_tips_bm' => $data['solving_tips_bm'],
-                    'worked_example' => $data['worked_example'],
-                    'worked_example_bm' => $data['worked_example_bm'],
-                ]);
-            }
-        }
+    $topic = Topic::where('name', $data['topic'])->first();
+    if ($topic) {
+        QuickRevision::create([
+            'topic_id' => $topic->id,
+            'objectives' => $data['objectives'],
+            'objectives_bm' => $data['objectives_bm'],
+            'key_formulas' => $data['key_formulas'],
+            'key_formulas_bm' => $data['key_formulas_bm'],
+            'solving_tips' => $data['solving_tips'],
+            'solving_tips_bm' => $data['solving_tips_bm'],
+            'worked_example' => $data['worked_example'],
+            'worked_example_bm' => $data['worked_example_bm'],
+        ]);
+    }
+}
     }
 }
