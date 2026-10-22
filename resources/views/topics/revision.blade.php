@@ -1,85 +1,104 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-teal-800 leading-tight">
-            <span class="lang-en">Quick Revision — {{ $topic->name }}</span>
-            <span class="lang-bm hidden">Ulang Kaji Pantas — {{ $topic->name_bm }}</span>
-        </h2>
+        <div>
+            <p class="text-xs text-slate-400 mb-0.5">
+                <span class="lang-en">Home → Topics → Quick Revision</span>
+                <span class="lang-bm hidden">Utama → Topik → Ulang Kaji Pantas</span>
+            </p>
+            <h2 class="font-bold text-lg text-slate-800">
+                <span class="lang-en">Quick Revision</span>
+                <span class="lang-bm hidden">Ulang Kaji Pantas</span>
+            </h2>
+        </div>
     </x-slot>
 
-    <div class="py-8 px-6 max-w-4xl mx-auto">
+    <div class="p-6 max-w-4xl mx-auto">
 
         {{-- Topic Header --}}
-        <div class="bg-gradient-to-br from-teal-50 to-sky-50 border border-teal-100 rounded-2xl p-6 mb-6 shadow-sm">
-            <h3 class="text-xl font-bold text-teal-800 lang-en">{{ $topic->name }}</h3>
-            <h3 class="text-xl font-bold text-teal-800 lang-bm hidden">{{ $topic->name_bm }}</h3>
-            <p class="text-sm text-teal-500 mt-1 lang-en">{{ $topic->name_bm }}</p>
-            <p class="text-sm text-teal-500 mt-1 lang-bm hidden">{{ $topic->name }}</p>
-            <p class="text-sm text-gray-500 mt-2 lang-en">{{ $topic->description }}</p>
-            <p class="text-sm text-gray-500 mt-2 lang-bm hidden">{{ $topic->description_bm }}</p>
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 mb-6">
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0">
+                    @if($topic->order === 1) 📐
+                    @elseif($topic->order === 2) 🔢
+                    @elseif($topic->order === 3) 🧠
+                    @elseif($topic->order === 4) 🔵
+                    @else 🕸️
+                    @endif
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-slate-800 lang-en">{{ $topic->name }}</h3>
+                    <h3 class="text-lg font-bold text-slate-800 lang-bm hidden">{{ $topic->name_bm }}</h3>
+                    <p class="text-sm text-slate-400 mt-0.5 lang-en">{{ $topic->name_bm }}</p>
+                    <p class="text-sm text-slate-400 mt-0.5 lang-bm hidden">{{ $topic->name }}</p>
+                </div>
+            </div>
         </div>
 
         {{-- Objectives --}}
-        <div class="bg-white rounded-2xl border border-gray-100 p-6 mb-4 shadow-sm">
-            <h4 class="text-sm font-bold text-teal-700 mb-4">
-                <span class="lang-en">🎯 Learning Objectives</span>
-                <span class="lang-bm hidden">🎯 Objektif Pembelajaran</span>
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 mb-4">
+            <h4 class="text-sm font-bold text-teal-700 mb-4 flex items-center gap-2">
+                <span class="w-6 h-6 bg-teal-50 rounded-lg flex items-center justify-center text-xs">🎯</span>
+                <span class="lang-en">Learning Objectives</span>
+                <span class="lang-bm hidden">Objektif Pembelajaran</span>
             </h4>
-            <p class="text-sm text-gray-600 leading-relaxed lang-en">{{ $revision->objectives }}</p>
-            <p class="text-sm text-gray-600 leading-relaxed lang-bm hidden">{{ $revision->objectives_bm }}</p>
+            <p class="text-sm text-slate-600 leading-relaxed lang-en">{{ $revision->objectives }}</p>
+            <p class="text-sm text-slate-600 leading-relaxed lang-bm hidden">{{ $revision->objectives_bm }}</p>
         </div>
 
         {{-- Key Formulas --}}
-        <div class="bg-white rounded-2xl border border-gray-100 p-6 mb-4 shadow-sm">
-            <h4 class="text-sm font-bold text-teal-700 mb-4">
-                <span class="lang-en">📐 Key Formulas</span>
-                <span class="lang-bm hidden">📐 Rumus Utama</span>
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 mb-4">
+            <h4 class="text-sm font-bold text-teal-700 mb-4 flex items-center gap-2">
+                <span class="w-6 h-6 bg-teal-50 rounded-lg flex items-center justify-center text-xs">📐</span>
+                <span class="lang-en">Key Formulas</span>
+                <span class="lang-bm hidden">Rumus Utama</span>
             </h4>
             <div class="space-y-2 lang-en">
                 @foreach(explode('|', $revision->key_formulas) as $formula)
-                <div class="flex gap-2 items-start p-2 bg-teal-50 rounded-lg border border-teal-100">
-                    <span class="text-teal-500 flex-shrink-0 mt-0.5">▸</span>
-                    <p class="text-sm text-gray-700">{{ trim($formula) }}</p>
+                <div class="flex gap-2 items-start p-3 bg-teal-50 rounded-xl border border-teal-100">
+                    <span class="text-teal-500 flex-shrink-0 mt-0.5 font-bold">▸</span>
+                    <p class="text-sm text-slate-700">{{ trim($formula) }}</p>
                 </div>
                 @endforeach
             </div>
             <div class="space-y-2 lang-bm hidden">
                 @foreach(explode('|', $revision->key_formulas_bm) as $formula)
-                <div class="flex gap-2 items-start p-2 bg-teal-50 rounded-lg border border-teal-100">
-                    <span class="text-teal-500 flex-shrink-0 mt-0.5">▸</span>
-                    <p class="text-sm text-gray-700">{{ trim($formula) }}</p>
+                <div class="flex gap-2 items-start p-3 bg-teal-50 rounded-xl border border-teal-100">
+                    <span class="text-teal-500 flex-shrink-0 mt-0.5 font-bold">▸</span>
+                    <p class="text-sm text-slate-700">{{ trim($formula) }}</p>
                 </div>
                 @endforeach
             </div>
         </div>
 
         {{-- Solving Tips --}}
-        <div class="bg-white rounded-2xl border border-gray-100 p-6 mb-4 shadow-sm">
-            <h4 class="text-sm font-bold text-teal-700 mb-4">
-                <span class="lang-en">💡 Solving Tips</span>
-                <span class="lang-bm hidden">💡 Tips Penyelesaian</span>
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 mb-4">
+            <h4 class="text-sm font-bold text-teal-700 mb-4 flex items-center gap-2">
+                <span class="w-6 h-6 bg-teal-50 rounded-lg flex items-center justify-center text-xs">💡</span>
+                <span class="lang-en">Solving Tips</span>
+                <span class="lang-bm hidden">Tips Penyelesaian</span>
             </h4>
             <div class="space-y-2 lang-en">
                 @foreach(preg_split('/(?=Step \d+:)/', $revision->solving_tips, -1, PREG_SPLIT_NO_EMPTY) as $step)
-                <div class="flex gap-2 text-sm text-gray-700 p-2 bg-sky-50 rounded-lg border border-sky-100">
+                <div class="flex gap-3 p-3 bg-sky-50 rounded-xl border border-sky-100">
                     @if(preg_match('/^(Step \d+:)(.*)/', trim($step), $m))
-                        <span class="text-sky-600 font-semibold flex-shrink-0 w-16">{{ trim($m[1]) }}</span>
-                        <span>{{ trim($m[2]) }}</span>
+                        <span class="text-sky-600 font-bold text-xs flex-shrink-0 w-16 pt-0.5">{{ trim($m[1]) }}</span>
+                        <span class="text-sm text-slate-700">{{ trim($m[2]) }}</span>
                     @else
                         <span class="text-sky-500 flex-shrink-0">▸</span>
-                        <span>{{ trim($step) }}</span>
+                        <span class="text-sm text-slate-700">{{ trim($step) }}</span>
                     @endif
                 </div>
                 @endforeach
             </div>
             <div class="space-y-2 lang-bm hidden">
                 @foreach(preg_split('/(?=Langkah \d+:)/', $revision->solving_tips_bm, -1, PREG_SPLIT_NO_EMPTY) as $step)
-                <div class="flex gap-2 text-sm text-gray-700 p-2 bg-sky-50 rounded-lg border border-sky-100">
+                <div class="flex gap-3 p-3 bg-sky-50 rounded-xl border border-sky-100">
                     @if(preg_match('/^(Langkah \d+:)(.*)/', trim($step), $m))
-                        <span class="text-sky-600 font-semibold flex-shrink-0 w-20">{{ trim($m[1]) }}</span>
-                        <span>{{ trim($m[2]) }}</span>
+                        <span class="text-sky-600 font-bold text-xs flex-shrink-0 w-20 pt-0.5">{{ trim($m[1]) }}</span>
+                        <span class="text-sm text-slate-700">{{ trim($m[2]) }}</span>
                     @else
                         <span class="text-sky-500 flex-shrink-0">▸</span>
-                        <span>{{ trim($step) }}</span>
+                        <span class="text-sm text-slate-700">{{ trim($step) }}</span>
                     @endif
                 </div>
                 @endforeach
@@ -87,46 +106,54 @@
         </div>
 
         {{-- Worked Example --}}
-        <div class="bg-amber-50 border border-amber-100 rounded-2xl p-6 mb-6 shadow-sm">
-            <h4 class="text-sm font-bold text-amber-700 mb-4">
-                <span class="lang-en">✏️ Worked Example</span>
-                <span class="lang-bm hidden">✏️ Contoh Penyelesaian</span>
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 mb-6">
+            <h4 class="text-sm font-bold text-amber-700 mb-4 flex items-center gap-2">
+                <span class="w-6 h-6 bg-amber-50 rounded-lg flex items-center justify-center text-xs">✏️</span>
+                <span class="lang-en">Worked Example</span>
+                <span class="lang-bm hidden">Contoh Penyelesaian</span>
             </h4>
-            <div class="space-y-2 lang-en">
-                @foreach(preg_split('/(?=Step \d+:)/', $revision->worked_example, -1, PREG_SPLIT_NO_EMPTY) as $step)
-                <div class="flex gap-2 text-sm text-gray-700">
-                    @if(preg_match('/^(Step \d+:)(.*)/', trim($step), $m))
-                        <span class="text-amber-600 font-semibold flex-shrink-0 w-16">{{ trim($m[1]) }}</span>
-                        <span>{{ trim($m[2]) }}</span>
-                    @else
-                        <span>{{ trim($step) }}</span>
-                    @endif
+            <div class="bg-amber-50 rounded-xl border border-amber-100 p-4">
+                <div class="space-y-2 lang-en">
+                    @foreach(preg_split('/(?=Step \d+:)/', $revision->worked_example, -1, PREG_SPLIT_NO_EMPTY) as $step)
+                    <div class="flex gap-3">
+                        @if(preg_match('/^(Step \d+:)(.*)/', trim($step), $m))
+                            <span class="text-amber-600 font-bold text-xs flex-shrink-0 w-16 pt-0.5">{{ trim($m[1]) }}</span>
+                            <span class="text-sm text-slate-700">{{ trim($m[2]) }}</span>
+                        @else
+                            <span class="text-sm text-slate-700">{{ trim($step) }}</span>
+                        @endif
+                    </div>
+                    @endforeach
                 </div>
-                @endforeach
-            </div>
-            <div class="space-y-2 lang-bm hidden">
-                @foreach(preg_split('/(?=Langkah \d+:)/', $revision->worked_example_bm, -1, PREG_SPLIT_NO_EMPTY) as $step)
-                <div class="flex gap-2 text-sm text-gray-700">
-                    @if(preg_match('/^(Langkah \d+:)(.*)/', trim($step), $m))
-                        <span class="text-amber-600 font-semibold flex-shrink-0 w-20">{{ trim($m[1]) }}</span>
-                        <span>{{ trim($m[2]) }}</span>
-                    @else
-                        <span>{{ trim($step) }}</span>
-                    @endif
+                <div class="space-y-2 lang-bm hidden">
+                    @foreach(preg_split('/(?=Langkah \d+:)/', $revision->worked_example_bm, -1, PREG_SPLIT_NO_EMPTY) as $step)
+                    <div class="flex gap-3">
+                        @if(preg_match('/^(Langkah \d+:)(.*)/', trim($step), $m))
+                            <span class="text-amber-600 font-bold text-xs flex-shrink-0 w-20 pt-0.5">{{ trim($m[1]) }}</span>
+                            <span class="text-sm text-slate-700">{{ trim($m[2]) }}</span>
+                        @else
+                            <span class="text-sm text-slate-700">{{ trim($step) }}</span>
+                        @endif
+                    </div>
+                    @endforeach
                 </div>
-                @endforeach
             </div>
         </div>
 
         {{-- Action Buttons --}}
         <div class="flex gap-3">
             <a href="{{ route('topics.index') }}"
-                class="px-5 py-2.5 text-sm font-medium bg-gray-100 text-gray-600 rounded-xl hover:bg-gray-200 transition">
+                class="px-5 py-2.5 text-sm font-medium bg-white text-slate-600 border border-slate-200 rounded-xl hover:bg-slate-50 transition shadow-sm">
                 <span class="lang-en">← Back to Topics</span>
                 <span class="lang-bm hidden">← Kembali ke Topik</span>
             </a>
+            <a href="{{ route('topics.notes', $topic->id) }}"
+                class="px-5 py-2.5 text-sm font-semibold bg-sky-500 text-white rounded-xl hover:bg-sky-600 transition shadow-sm">
+                <span class="lang-en">📖 Learning Notes</span>
+                <span class="lang-bm hidden">📖 Nota Pembelajaran</span>
+            </a>
             <a href="{{ route('practice.difficulty', $topic->id) }}"
-                class="px-5 py-2.5 text-sm font-semibold bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition">
+                class="px-5 py-2.5 text-sm font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-600 transition shadow-sm">
                 <span class="lang-en">Start Practice →</span>
                 <span class="lang-bm hidden">Mula Latihan →</span>
             </a>
