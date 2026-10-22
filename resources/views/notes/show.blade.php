@@ -1,7 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-teal-800 leading-tight">
-            Learning Notes — {{ $topic->name }}
+            <span class="lang-en">Learning Notes — {{ $topic->name }}</span>
+            <span class="lang-bm hidden">Nota Pembelajaran — {{ $topic->name_bm }}</span>
         </h2>
     </x-slot>
 
@@ -19,8 +20,10 @@
                     @endif
                 </div>
                 <div>
-                    <h3 class="text-lg font-bold text-teal-800">{{ $topic->name }}</h3>
-                    <p class="text-sm text-teal-500">{{ $topic->name_bm }}</p>
+                    <h3 class="text-lg font-bold text-teal-800 lang-en">{{ $topic->name }}</h3>
+                    <h3 class="text-lg font-bold text-teal-800 lang-bm hidden">{{ $topic->name_bm }}</h3>
+                    <p class="text-sm text-teal-500 lang-en">{{ $topic->description }}</p>
+                    <p class="text-sm text-teal-500 lang-bm hidden">{{ $topic->description_bm }}</p>
                 </div>
             </div>
         </div>
@@ -42,15 +45,18 @@
         <div class="flex gap-3 mt-8">
             <a href="{{ route('topics.index') }}"
                 class="px-5 py-2.5 text-sm font-medium bg-gray-100 text-gray-600 rounded-xl hover:bg-gray-200 transition">
-                ← Back to Topics
+                <span class="lang-en">← Back to Topics</span>
+                <span class="lang-bm hidden">← Kembali ke Topik</span>
             </a>
             <a href="{{ route('topics.revision', $topic->id) }}"
                 class="px-5 py-2.5 text-sm font-semibold bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition">
-                Quick Revision →
+                <span class="lang-en">Quick Revision →</span>
+                <span class="lang-bm hidden">Ulang Kaji Pantas →</span>
             </a>
             <a href="{{ route('practice.difficulty', $topic->id) }}"
                 class="px-5 py-2.5 text-sm font-semibold bg-sky-600 text-white rounded-xl hover:bg-sky-700 transition">
-                Start Practice →
+                <span class="lang-en">Start Practice →</span>
+                <span class="lang-bm hidden">Mula Latihan →</span>
             </a>
         </div>
 
@@ -60,12 +66,13 @@
         function toggleSolution(id) {
             const el = document.getElementById(id);
             const btn = document.getElementById('btn-' + id);
+            const lang = localStorage.getItem('mm_lang') || 'en';
             if (el.classList.contains('hidden')) {
                 el.classList.remove('hidden');
-                btn.textContent = 'Hide Solution ▲';
+                btn.textContent = lang === 'bm' ? 'Sembunyikan Penyelesaian ▲' : 'Hide Solution ▲';
             } else {
                 el.classList.add('hidden');
-                btn.textContent = 'Show Solution ▼';
+                btn.textContent = lang === 'bm' ? 'Tunjukkan Penyelesaian ▼' : 'Show Solution ▼';
             }
         }
 
@@ -73,19 +80,20 @@
             const selected = document.querySelector(`input[name="${qId}"]:checked`);
             const feedback = document.getElementById('feedback-' + qId);
             const hint = document.getElementById('hint-' + qId);
+            const lang = localStorage.getItem('mm_lang') || 'en';
 
             if (!selected) {
-                feedback.textContent = 'Please select an answer first.';
+                feedback.textContent = lang === 'bm' ? 'Sila pilih jawapan dahulu.' : 'Please select an answer first.';
                 feedback.className = 'text-xs text-gray-400 mt-2';
                 feedback.classList.remove('hidden');
                 return;
             }
 
             if (selected.value === correct) {
-                feedback.textContent = '✅ Correct! Well done.';
+                feedback.textContent = lang === 'bm' ? '✅ Betul! Tahniah.' : '✅ Correct! Well done.';
                 feedback.className = 'text-xs text-teal-600 font-semibold mt-2';
             } else {
-                feedback.textContent = '❌ Not quite. Try again or check the hint.';
+                feedback.textContent = lang === 'bm' ? '❌ Tidak tepat. Cuba lagi atau semak petunjuk.' : '❌ Not quite. Try again or check the hint.';
                 feedback.className = 'text-xs text-rose-500 font-semibold mt-2';
                 if (hint) hint.classList.remove('hidden');
             }

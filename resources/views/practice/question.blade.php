@@ -1,7 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-teal-800 leading-tight">
-            Practice — {{ $session->topic->name }}
+            <span class="lang-en">Practice — {{ $session->topic->name }}</span>
+            <span class="lang-bm hidden">Latihan — {{ $session->topic->name_bm }}</span>
         </h2>
     </x-slot>
 
@@ -10,8 +11,16 @@
         {{-- Progress Bar --}}
         <div class="mb-6">
             <div class="flex justify-between text-xs text-gray-400 mb-2">
-                <span class="font-medium text-gray-500">Question {{ $current + 1 }} of {{ $total }}</span>
-                <span>🔥 Streak: <strong>{{ $streak }}</strong> &nbsp;|&nbsp; ⭐ Points: <strong>{{ $points }}</strong></span>
+                <span class="font-medium text-gray-500">
+                    <span class="lang-en">Question {{ $current + 1 }} of {{ $total }}</span>
+                    <span class="lang-bm hidden">Soalan {{ $current + 1 }} daripada {{ $total }}</span>
+                </span>
+                <span>
+                    🔥 <span class="lang-en">Streak:</span><span class="lang-bm hidden">Jujukan:</span>
+                    <strong>{{ $streak }}</strong> &nbsp;|&nbsp;
+                    ⭐ <span class="lang-en">Points:</span><span class="lang-bm hidden">Mata:</span>
+                    <strong>{{ $points }}</strong>
+                </span>
             </div>
             <div class="w-full bg-gray-100 rounded-full h-2.5">
                 <div class="bg-teal-500 h-2.5 rounded-full transition-all"
@@ -26,27 +35,28 @@
                 @elseif($session->difficulty === 'medium') bg-amber-50 text-amber-700
                 @else bg-rose-50 text-rose-700
                 @endif">
-                {{ ucfirst($session->difficulty) }}
+                <span class="lang-en">{{ ucfirst($session->difficulty) }}</span>
+                <span class="lang-bm hidden">
+                    @if($session->difficulty === 'easy') Mudah
+                    @elseif($session->difficulty === 'medium') Sederhana
+                    @else Sukar
+                    @endif
+                </span>
             </span>
             <span class="text-xs font-semibold px-3 py-1 rounded-full bg-sky-50 text-sky-700">
-                {{ ucfirst(str_replace('_', ' ', $question->type)) }}
+                <span class="lang-en">{{ ucfirst(str_replace('_', ' ', $question->type)) }}</span>
+                <span class="lang-bm hidden">
+                    @if($question->type === 'mcq') Aneka Pilihan
+                    @elseif($question->type === 'true_false') Benar / Palsu
+                    @elseif($question->type === 'numerical') Berangka
+                    @else Jawapan Berbilang
+                    @endif
+                </span>
             </span>
         </div>
 
         {{-- Question Card --}}
         <div class="bg-white border border-gray-100 rounded-2xl p-6 mb-6 shadow-sm">
-
-            {{-- Bilingual Toggle --}}
-            <div class="flex gap-2 mb-5">
-                <button onclick="switchLang('en')" id="btn-en"
-                    class="px-3 py-1 text-xs font-semibold rounded-lg bg-teal-600 text-white transition">
-                    English
-                </button>
-                <button onclick="switchLang('bm')" id="btn-bm"
-                    class="px-3 py-1 text-xs font-semibold rounded-lg bg-gray-100 text-gray-500 transition">
-                    BM
-                </button>
-            </div>
 
             <p class="text-sm font-semibold text-gray-800 mb-6 lang-en leading-relaxed">{{ $question->question_text }}</p>
             <p class="text-sm font-semibold text-gray-800 mb-6 lang-bm hidden leading-relaxed">{{ $question->question_text_bm }}</p>
@@ -74,11 +84,17 @@
                 <div class="grid grid-cols-2 gap-4">
                     <label class="flex items-center justify-center gap-2 p-4 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-teal-400 hover:bg-teal-50 transition">
                         <input type="radio" name="answer" value="True" class="accent-teal-600" required>
-                        <span class="text-sm font-semibold text-gray-700">✅ True</span>
+                        <span class="text-sm font-semibold text-gray-700">
+                            <span class="lang-en">✅ True</span>
+                            <span class="lang-bm hidden">✅ Benar</span>
+                        </span>
                     </label>
                     <label class="flex items-center justify-center gap-2 p-4 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-rose-400 hover:bg-rose-50 transition">
                         <input type="radio" name="answer" value="False" class="accent-rose-600" required>
-                        <span class="text-sm font-semibold text-gray-700">❌ False</span>
+                        <span class="text-sm font-semibold text-gray-700">
+                            <span class="lang-en">❌ False</span>
+                            <span class="lang-bm hidden">❌ Palsu</span>
+                        </span>
                     </label>
                 </div>
 
@@ -86,15 +102,21 @@
                 @elseif($question->type === 'numerical')
                 <div>
                     <input type="text" name="answer" required
-                        placeholder="Type your answer here..."
+                        placeholder="{{ app()->getLocale() === 'ms' ? 'Taip jawapan anda di sini...' : 'Type your answer here...' }}"
                         class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-200 transition">
-                    <p class="text-xs text-gray-400 mt-2">Enter a number as your answer.</p>
+                    <p class="text-xs text-gray-400 mt-2">
+                        <span class="lang-en">Enter a number as your answer.</span>
+                        <span class="lang-bm hidden">Masukkan satu nombor sebagai jawapan anda.</span>
+                    </p>
                 </div>
 
                 {{-- Multiple Response --}}
                 @elseif($question->type === 'multiple_response')
                 <div class="space-y-3">
-                    <p class="text-xs text-teal-600 font-semibold mb-2">Select all correct answers:</p>
+                    <p class="text-xs text-teal-600 font-semibold mb-2">
+                        <span class="lang-en">Select all correct answers:</span>
+                        <span class="lang-bm hidden">Pilih semua jawapan yang betul:</span>
+                    </p>
                     @foreach(['A' => [$question->option_a, $question->option_a_bm],
                               'B' => [$question->option_b, $question->option_b_bm],
                               'C' => [$question->option_c, $question->option_c_bm],
@@ -110,7 +132,8 @@
 
                 <button type="submit"
                     class="mt-6 w-full bg-teal-600 text-white text-sm font-semibold py-3 rounded-xl hover:bg-teal-700 transition">
-                    Submit Answer →
+                    <span class="lang-en">Submit Answer →</span>
+                    <span class="lang-bm hidden">Hantar Jawapan →</span>
                 </button>
 
             </form>
@@ -119,31 +142,26 @@
         {{-- Streak Milestone Messages --}}
         @if($streak === 5)
         <div class="bg-teal-50 border border-teal-200 rounded-2xl p-4 text-center shadow-sm">
-            <p class="text-sm font-bold text-teal-700">🔥 5 in a row! Great momentum, keep going!</p>
+            <p class="text-sm font-bold text-teal-700">
+                <span class="lang-en">🔥 5 in a row! Great momentum, keep going!</span>
+                <span class="lang-bm hidden">🔥 5 berturut-turut! Momentum bagus, teruskan!</span>
+            </p>
         </div>
         @elseif($streak === 10)
         <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-center shadow-sm">
-            <p class="text-sm font-bold text-amber-700">⚡ 10 in a row! You are on fire!</p>
+            <p class="text-sm font-bold text-amber-700">
+                <span class="lang-en">⚡ 10 in a row! You are on fire!</span>
+                <span class="lang-bm hidden">⚡ 10 berturut-turut! Anda sangat hebat!</span>
+            </p>
         </div>
         @elseif($streak === 15)
         <div class="bg-violet-50 border border-violet-200 rounded-2xl p-4 text-center shadow-sm">
-            <p class="text-sm font-bold text-violet-700">🏆 15 in a row! Outstanding performance!</p>
+            <p class="text-sm font-bold text-violet-700">
+                <span class="lang-en">🏆 15 in a row! Outstanding performance!</span>
+                <span class="lang-bm hidden">🏆 15 berturut-turut! Prestasi luar biasa!</span>
+            </p>
         </div>
         @endif
 
     </div>
-
-    <script>
-        function switchLang(lang) {
-            document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('hidden', lang !== 'en'));
-            document.querySelectorAll('.lang-bm').forEach(el => el.classList.toggle('hidden', lang !== 'bm'));
-            document.getElementById('btn-en').className = lang === 'en'
-                ? 'px-3 py-1 text-xs font-semibold rounded-lg bg-teal-600 text-white transition'
-                : 'px-3 py-1 text-xs font-semibold rounded-lg bg-gray-100 text-gray-500 transition';
-            document.getElementById('btn-bm').className = lang === 'bm'
-                ? 'px-3 py-1 text-xs font-semibold rounded-lg bg-teal-600 text-white transition'
-                : 'px-3 py-1 text-xs font-semibold rounded-lg bg-gray-100 text-gray-500 transition';
-        }
-    </script>
-
 </x-app-layout>
