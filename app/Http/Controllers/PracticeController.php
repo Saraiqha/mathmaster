@@ -116,6 +116,7 @@ class PracticeController extends Controller
 
         $studentAnswer = $request->input('answer', '');
         $isCorrect = false;
+        
 
         // Check answer based on type
         if ($question->type === 'multiple_response') {
@@ -128,9 +129,20 @@ class PracticeController extends Controller
         } elseif ($question->type === 'numerical') {
             $isCorrect = trim(strtolower($studentAnswer)) === trim(strtolower($question->correct_answer));
         } elseif ($question->type === 'true_false') {
-            $isCorrect = strtolower($studentAnswer) === strtolower($question->correct_answer);
+            $isCorrect = strtolower(trim($studentAnswer)) === strtolower(trim($question->correct_answer));
         } else {
+            // MCQ
             $isCorrect = strtoupper(trim($studentAnswer)) === strtoupper(trim($question->correct_answer));
+        }
+
+        // Validate answer not empty
+        if ($question->type === 'multiple_response') {
+            $selected = is_array($request->input('answer')) ? $request->input('answer') : [];
+            if (empty($selected)) {
+                return back()->withErrors(['answer' => 'Please select at least one answer before submitting.']);
+            }
+        } elseif ($studentAnswer === '') {
+            return back()->withErrors(['answer' => 'Please select an answer before submitting.']);
         }
 
         // Save answer
