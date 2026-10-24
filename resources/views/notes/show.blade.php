@@ -1,17 +1,23 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-teal-800 leading-tight">
-            <span class="lang-en">Learning Notes — {{ $topic->name }}</span>
-            <span class="lang-bm hidden">Nota Pembelajaran — {{ $topic->name_bm }}</span>
-        </h2>
+        <div>
+            <p class="text-xs text-slate-400 mb-0.5">
+                <span class="lang-en">Home → Topics → {{ $topic->name }} → Learning Notes</span>
+                <span class="lang-bm hidden">Utama → Topik → {{ $topic->name_bm }} → Nota Pembelajaran</span>
+            </p>
+            <h2 class="font-bold text-lg text-slate-800">
+                <span class="lang-en">Learning Notes</span>
+                <span class="lang-bm hidden">Nota Pembelajaran</span>
+            </h2>
+        </div>
     </x-slot>
 
-    <div class="py-8 px-6 max-w-4xl mx-auto">
+    <div class="p-6 max-w-4xl mx-auto">
 
         {{-- Topic Header --}}
-        <div class="bg-gradient-to-br from-teal-50 to-sky-50 border border-teal-100 rounded-2xl p-6 mb-6 shadow-sm">
-            <div class="flex items-center gap-3">
-                <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-2xl shadow-sm">
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 mb-6">
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0">
                     @if($topic->order === 1) 📐
                     @elseif($topic->order === 2) 🔢
                     @elseif($topic->order === 3) 🧠
@@ -20,10 +26,10 @@
                     @endif
                 </div>
                 <div>
-                    <h3 class="text-lg font-bold text-teal-800 lang-en">{{ $topic->name }}</h3>
-                    <h3 class="text-lg font-bold text-teal-800 lang-bm hidden">{{ $topic->name_bm }}</h3>
-                    <p class="text-sm text-teal-500 lang-en">{{ $topic->description }}</p>
-                    <p class="text-sm text-teal-500 lang-bm hidden">{{ $topic->description_bm }}</p>
+                    <h3 class="text-lg font-bold text-slate-800 lang-en">{{ $topic->name }}</h3>
+                    <h3 class="text-lg font-bold text-slate-800 lang-bm hidden">{{ $topic->name_bm }}</h3>
+                    <p class="text-sm text-slate-400 mt-0.5 lang-en">{{ $topic->name_bm }}</p>
+                    <p class="text-sm text-slate-400 mt-0.5 lang-bm hidden">{{ $topic->name }}</p>
                 </div>
             </div>
         </div>
@@ -44,17 +50,17 @@
         {{-- Action Buttons --}}
         <div class="flex gap-3 mt-8">
             <a href="{{ route('topics.index') }}"
-                class="px-5 py-2.5 text-sm font-medium bg-gray-100 text-gray-600 rounded-xl hover:bg-gray-200 transition">
+                class="px-5 py-2.5 text-sm font-medium bg-white text-slate-600 border border-slate-200 rounded-xl hover:bg-slate-50 transition shadow-sm">
                 <span class="lang-en">← Back to Topics</span>
                 <span class="lang-bm hidden">← Kembali ke Topik</span>
             </a>
             <a href="{{ route('topics.revision', $topic->id) }}"
-                class="px-5 py-2.5 text-sm font-semibold bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition">
-                <span class="lang-en">Quick Revision →</span>
-                <span class="lang-bm hidden">Ulang Kaji Pantas →</span>
+                class="px-5 py-2.5 text-sm font-semibold bg-sky-500 text-white rounded-xl hover:bg-sky-600 transition shadow-sm">
+                <span class="lang-en">📋 Quick Revision</span>
+                <span class="lang-bm hidden">📋 Ulang Kaji Pantas</span>
             </a>
             <a href="{{ route('practice.difficulty', $topic->id) }}"
-                class="px-5 py-2.5 text-sm font-semibold bg-sky-600 text-white rounded-xl hover:bg-sky-700 transition">
+                class="px-5 py-2.5 text-sm font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-600 transition shadow-sm">
                 <span class="lang-en">Start Practice →</span>
                 <span class="lang-bm hidden">Mula Latihan →</span>
             </a>
@@ -84,7 +90,7 @@
 
             if (!selected) {
                 feedback.textContent = lang === 'bm' ? 'Sila pilih jawapan dahulu.' : 'Please select an answer first.';
-                feedback.className = 'text-xs text-gray-400 mt-2';
+                feedback.className = 'text-xs text-slate-400 mt-2';
                 feedback.classList.remove('hidden');
                 return;
             }

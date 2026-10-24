@@ -60,33 +60,70 @@
             <p class="text-sm text-slate-800 mb-4 lang-bm hidden leading-relaxed font-medium">{{ $question->question_text_bm }}</p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {{-- Your Answer --}}
-                <div class="p-3 rounded-xl {{ $isCorrect ? 'bg-teal-50 border border-teal-100' : 'bg-rose-50 border border-rose-100' }}">
-                    <p class="text-xs font-semibold mb-1 {{ $isCorrect ? 'text-teal-500' : 'text-rose-400' }}">
-                        <span class="lang-en">Your answer</span>
-                        <span class="lang-bm hidden">Jawapan anda</span>
-                    </p>
-                    <p class="text-sm font-bold {{ $isCorrect ? 'text-teal-700' : 'text-rose-600' }}">
-                        {{ $studentAnswer ?: '(no answer)' }}
-                    </p>
-                </div>
+                @php
+    $optionMap = [
+        'A' => [$question->option_a, $question->option_a_bm],
+        'B' => [$question->option_b, $question->option_b_bm],
+        'C' => [$question->option_c, $question->option_c_bm],
+        'D' => [$question->option_d, $question->option_d_bm],
+    ];
 
-                {{-- Correct Answer --}}
-                @if(!$isCorrect)
-                <div class="p-3 rounded-xl bg-teal-50 border border-teal-100">
-                    <p class="text-xs font-semibold text-teal-500 mb-1">
-                        <span class="lang-en">Correct answer</span>
-                        <span class="lang-bm hidden">Jawapan betul</span>
-                    </p>
-                    <p class="text-sm font-bold text-teal-700">
-                        @if($question->type === 'multiple_response')
-                            {{ $question->correct_answers }}
-                        @else
-                            {{ $question->correct_answer }}
-                        @endif
-                    </p>
-                </div>
-                @endif
+        // Build full answer text for MCQ and multiple response
+        function getFullAnswer($answer, $optionMap, $lang = 'en') {
+            if (empty($answer)) return null;
+            $keys = explode(',', $answer);
+            $parts = [];
+            foreach ($keys as $key) {
+                $key = trim($key);
+                if (isset($optionMap[$key])) {
+                    $text = $lang === 'bm' ? $optionMap[$key][1] : $optionMap[$key][0];
+                    $parts[] = $key . '. ' . $text;
+                } else {
+                    $parts[] = $key;
+                }
+            }
+            return implode(' | ', $parts);
+        }
+    @endphp
+
+        {{-- Your Answer --}}
+        <div class="p-3 rounded-xl {{ $isCorrect ? 'bg-teal-50 border border-teal-100' : 'bg-rose-50 border border-rose-100' }}">
+            <p class="text-xs font-semibold mb-1 {{ $isCorrect ? 'text-teal-500' : 'text-rose-400' }}">
+                <span class="lang-en">Your answer</span>
+                <span class="lang-bm hidden">Jawapan anda</span>
+            </p>
+            @if($question->type === 'numerical' || $question->type === 'true_false')
+                <p class="text-sm font-bold {{ $isCorrect ? 'text-teal-700' : 'text-rose-600' }}">
+                    {{ $studentAnswer ?: '(no answer)' }}
+                </p>
+            @else
+                <p class="text-sm font-bold {{ $isCorrect ? 'text-teal-700' : 'text-rose-600' }} lang-en">
+                    {{ $studentAnswer ? getFullAnswer($studentAnswer, $optionMap, 'en') : '(no answer)' }}
+                </p>
+                <p class="text-sm font-bold {{ $isCorrect ? 'text-teal-700' : 'text-rose-600' }} lang-bm hidden">
+                    {{ $studentAnswer ? getFullAnswer($studentAnswer, $optionMap, 'bm') : '(tiada jawapan)' }}
+                </p>
+            @endif
+        </div>
+
+        {{-- Correct Answer --}}
+        @if(!$isCorrect)
+        <div class="p-3 rounded-xl bg-teal-50 border border-teal-100">
+            <p class="text-xs font-semibold text-teal-500 mb-1">
+                <span class="lang-en">Correct answer</span>
+                <span class="lang-bm hidden">Jawapan betul</span>
+            </p>
+            @if($question->type === 'numerical' || $question->type === 'true_false')
+                <p class="text-sm font-bold text-teal-700">{{ $question->correct_answer }}</p>
+            @else
+                @php
+                    $correctKey = $question->type === 'multiple_response' ? $question->correct_answers : $question->correct_answer;
+                @endphp
+                <p class="text-sm font-bold text-teal-700 lang-en">{{ getFullAnswer($correctKey, $optionMap, 'en') }}</p>
+                <p class="text-sm font-bold text-teal-700 lang-bm hidden">{{ getFullAnswer($correctKey, $optionMap, 'bm') }}</p>
+            @endif
+        </div>
+        @endif
             </div>
         </div>
 

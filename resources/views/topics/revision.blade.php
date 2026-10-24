@@ -106,39 +106,56 @@
         </div>
 
         {{-- Worked Example --}}
-        <div class="space-y-3 lang-en">
-            @foreach(preg_split('/(?=Step \d+:)/i', $revision->worked_example, -1, PREG_SPLIT_NO_EMPTY) as $step)
-            @php
-                preg_match('/^(Step \d+:)\s*(.*)/is', trim($step), $m);
-            @endphp
-            @if(!empty($m))
-            <div class="border-b border-amber-100 pb-3 last:border-0">
-                <span class="text-xs font-bold text-amber-600 block mb-1">{{ trim($m[1]) }}</span>
-                <span class="text-sm text-slate-700">{{ trim($m[2]) }}</span>
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 mb-6">
+            <h4 class="text-sm font-bold text-amber-700 mb-4 flex items-center gap-2">
+                <span class="w-6 h-6 bg-amber-50 rounded-lg flex items-center justify-center text-xs">✏️</span>
+                <span class="lang-en">Worked Example</span>
+                <span class="lang-bm hidden">Contoh Penyelesaian</span>
+            </h4>
+            <div class="bg-amber-50 rounded-xl border border-amber-100 p-5">
+                <div class="space-y-3 lang-en">
+                    @foreach(preg_split('/(?=Step \d+:)/i', $revision->worked_example, -1, PREG_SPLIT_NO_EMPTY) as $step)
+                    @php preg_match('/^(Step \d+:)\s*(.*)/is', trim($step), $m); @endphp
+                    @if(!empty($m))
+                    <div class="pb-3 border-b border-amber-100 last:border-0 last:pb-0">
+                        <span class="text-xs font-bold text-amber-600 mr-2">
+                            {{ trim($m[1]) }}
+                        </span>
+                        <span class="text-sm text-slate-700">
+                            {{ trim($m[2]) }}
+                        </span>
+                    </div>
+                @else
+                    <div class="pb-3 border-b border-amber-100 last:border-0 last:pb-0">
+                        <span class="text-sm text-slate-700 font-medium">
+                            {{ trim($step) }}
+                        </span>
+                    </div>
+                @endif
+                    @endforeach
+                </div>
+                <div class="space-y-3 lang-bm hidden">
+                    @foreach(preg_split('/(?=Langkah \d+:)/i', $revision->worked_example_bm, -1, PREG_SPLIT_NO_EMPTY) as $step)
+                    @php preg_match('/^(Langkah \d+:)\s*(.*)/is', trim($step), $m); @endphp
+                    @if(!empty($m))
+                    <div class="pb-3 border-b border-amber-100 last:border-0 last:pb-0">
+                        <span class="text-xs font-bold text-amber-600 mr-2">
+                            {{ trim($m[1]) }}
+                        </span>
+                        <span class="text-sm text-slate-700">
+                            {{ trim($m[2]) }}
+                        </span>
+                    </div>
+                @else
+                    <div class="pb-3 border-b border-amber-100 last:border-0 last:pb-0">
+                        <span class="text-sm text-slate-700 font-medium">
+                            {{ trim($step) }}
+                        </span>
+                    </div>
+                @endif
+                    @endforeach
+                </div>
             </div>
-            @else
-            <div>
-                <span class="text-sm text-slate-700">{{ trim($step) }}</span>
-            </div>
-            @endif
-            @endforeach
-        </div>
-        <div class="space-y-3 lang-bm hidden">
-            @foreach(preg_split('/(?=Langkah \d+:)/i', $revision->worked_example_bm, -1, PREG_SPLIT_NO_EMPTY) as $step)
-            @php
-                preg_match('/^(Langkah \d+:)\s*(.*)/is', trim($step), $m);
-            @endphp
-            @if(!empty($m))
-            <div class="border-b border-amber-100 pb-3 last:border-0">
-                <span class="text-xs font-bold text-amber-600 block mb-1">{{ trim($m[1]) }}</span>
-                <span class="text-sm text-slate-700">{{ trim($m[2]) }}</span>
-            </div>
-            @else
-            <div>
-                <span class="text-sm text-slate-700">{{ trim($step) }}</span>
-            </div>
-            @endif
-            @endforeach
         </div>
 
         {{-- Action Buttons --}}
