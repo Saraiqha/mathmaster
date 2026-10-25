@@ -136,16 +136,59 @@
             </h4>
 
             {{-- English steps --}}
-            <div class="space-y-2 lang-en">
-                @foreach(preg_split('/(?=Step \d+:)/', $question->solution_steps, -1, PREG_SPLIT_NO_EMPTY) as $step)
-                <div class="flex gap-3 p-3 bg-slate-50 rounded-xl">
-                    @if(preg_match('/^(Step \d+:)(.*)/', trim($step), $m))
-                        <span class="text-teal-600 font-bold text-xs flex-shrink-0 w-16 pt-0.5">{{ trim($m[1]) }}</span>
-                        <span class="text-sm text-slate-700">{{ trim($m[2]) }}</span>
-                    @else
-                        <span class="text-sm text-slate-700">{{ trim($step) }}</span>
-                    @endif
+            <div class="space-y-3 lang-en">
+                @foreach(preg_split('/(?=Step \d+:)/i', $question->solution_steps, -1, PREG_SPLIT_NO_EMPTY) as $step)
+                @php
+                    preg_match('/^(Step \d+:)\s*(.*)/is', trim($step), $m);
+                    $stepLabel = !empty($m) ? trim($m[1]) : '';
+                    $stepContent = !empty($m) ? trim($m[2]) : trim($step);
+                    // Split content by '. ' to get individual lines of working
+                    $lines = preg_split('/\.\s+(?=[A-Z0-9\(x\-])/', $stepContent);
+                @endphp
+                @if($stepLabel)
+                <div class="flex gap-2 items-start">
+                    <span class="text-teal-500 flex-shrink-0 mt-1">→</span>
+                    <div class="flex-1">
+                        <span class="text-xs font-bold text-teal-600 block mb-1">{{ $stepLabel }}</span>
+                        @foreach($lines as $i => $line)
+                        <p class="text-sm text-slate-700 {{ $i > 0 ? 'pl-4 mt-1' : '' }}">{{ trim($line) }}{{ $i < count($lines)-1 ? '' : '' }}</p>
+                        @endforeach
+                    </div>
                 </div>
+                @else
+                <div class="flex gap-2 items-start">
+                    <span class="text-teal-500 flex-shrink-0 mt-1">→</span>
+                    <span class="text-sm text-slate-700">{{ $stepContent }}</span>
+                </div>
+                @endif
+                @endforeach
+            </div>
+
+            {{-- BM steps --}}
+            <div class="space-y-3 lang-bm hidden">
+                @foreach(preg_split('/(?=Langkah \d+:)/i', $question->solution_steps_bm, -1, PREG_SPLIT_NO_EMPTY) as $step)
+                @php
+                    preg_match('/^(Langkah \d+:)\s*(.*)/is', trim($step), $m);
+                    $stepLabel = !empty($m) ? trim($m[1]) : '';
+                    $stepContent = !empty($m) ? trim($m[2]) : trim($step);
+                    $lines = preg_split('/\.\s+(?=[A-Z0-9\(x\-])/', $stepContent);
+                @endphp
+                @if($stepLabel)
+                <div class="flex gap-2 items-start">
+                    <span class="text-teal-500 flex-shrink-0 mt-1">→</span>
+                    <div class="flex-1">
+                        <span class="text-xs font-bold text-teal-600 block mb-1">{{ $stepLabel }}</span>
+                        @foreach($lines as $i => $line)
+                        <p class="text-sm text-slate-700 {{ $i > 0 ? 'pl-4 mt-1' : '' }}">{{ trim($line) }}</p>
+                        @endforeach
+                    </div>
+                </div>
+                @else
+                <div class="flex gap-2 items-start">
+                    <span class="text-teal-500 flex-shrink-0 mt-1">→</span>
+                    <span class="text-sm text-slate-700">{{ $stepContent }}</span>
+                </div>
+                @endif
                 @endforeach
             </div>
 
