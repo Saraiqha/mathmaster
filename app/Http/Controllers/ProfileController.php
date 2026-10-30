@@ -16,9 +16,30 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+    $user = $request->user();
+
+    $sessions = \App\Models\PracticeSession::where('user_id', $user->id)
+        ->where('is_completed', 1);
+
+    $stats = [
+        'sessions' => (clone $sessions)->count(),
+        'average'  => (clone $sessions)->count() ? round((clone $sessions)->avg('score')) : 0,
+        'badges'   => \App\Models\UserAchievement::where('user_id', $user->id)->count(),
+    ];
+
+    $recentBadges = \App\Models\UserAchievement::where('user_id', $user->id)
+        ->orderByDesc('earned_at')
+        ->take(4)
+        ->pluck('badge_key');
+
+    $badgeList = \App\Services\AchievementService::badges();
+
+    return view('profile.edit', [
+        'user' => $user,
+        'stats' => $stats,
+        'recentBadges' => $recentBadges,
+        'badgeList' => $badgeList,
+    ]);
     }
 
     /**

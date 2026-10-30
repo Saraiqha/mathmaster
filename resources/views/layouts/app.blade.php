@@ -133,6 +133,20 @@
                     <span class="lang-bm hidden">Topik</span>
                 </a>
 
+                 <a href="{{ route('progress.index') }}"
+                    class="sidebar-link {{ request()->routeIs('progress.*') ? 'active' : '' }}">
+                    <span class="icon">📈</span>
+                    <span class="lang-en">My Progress</span>
+                    <span class="lang-bm hidden">Kemajuan Saya</span>
+                </a>
+
+                <a href="{{ route('achievements.index') }}"
+                    class="sidebar-link {{ request()->routeIs('achievements.*') ? 'active' : '' }}">
+                    <span class="icon">🏅</span>
+                    <span class="lang-en">Achievements</span>
+                    <span class="lang-bm hidden">Pencapaian</span>
+                </a>
+
                 <a href="{{ route('profile.edit') }}"
                     class="sidebar-link {{ request()->routeIs('profile.*') ? 'active' : '' }}">
                     <span class="icon">👤</span>

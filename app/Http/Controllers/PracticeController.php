@@ -254,6 +254,9 @@ return view('practice.feedback', [
         'practice_points'
     ]);
 
-    return view('practice.summary', compact('session', 'score', 'points', 'unlocked'));
+    $newBadges = \App\Services\AchievementService::check(auth()->user());
+    $badgeList = \App\Services\AchievementService::badges();
+
+    return view('practice.summary', compact('session', 'score', 'points', 'unlocked', 'newBadges', 'badgeList'));
 }
 }

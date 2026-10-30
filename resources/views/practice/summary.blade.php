@@ -117,6 +117,26 @@
             </div>
         </div>
 
+        @if(!empty($newBadges))
+        <div class="bg-violet-50 border border-violet-100 rounded-2xl p-5 mb-5 shadow-sm">
+            <p class="text-sm font-bold text-violet-700 mb-3">
+                <span class="lang-en">🏅 New badge earned!</span>
+                <span class="lang-bm hidden">🏅 Lencana baru diperoleh!</span>
+            </p>
+            <div class="flex flex-wrap gap-3">
+                @foreach($newBadges as $key)
+                <div class="flex items-center gap-2 bg-white rounded-xl border border-violet-100 px-3 py-2">
+                    <span class="text-2xl">{{ $badgeList[$key][0] }}</span>
+                    <span class="text-xs font-semibold text-slate-700">
+                        <span class="lang-en">{{ $badgeList[$key][1] }}</span>
+                        <span class="lang-bm hidden">{{ $badgeList[$key][2] }}</span>
+                    </span>
+                </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+
         {{-- Recommendation --}}
         @if($score < 60)
         <div class="bg-white border border-slate-100 rounded-2xl p-5 mb-5 shadow-sm">
