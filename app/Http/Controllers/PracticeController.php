@@ -82,44 +82,64 @@ class PracticeController extends Controller
         return redirect()->route('practice.question', ['session' => $session->id]);
     }
 
-    // Show current question
-    public function question(PracticeSession $session)
-{
-    $questionIds = session('practice_questions', []);
-    $current = session('practice_current', 0);
+        // Show current question
+        public function question(PracticeSession $session)
+        {
+            $questionIds = session('practice_questions', []);
+            $current = session('practice_current', 0);
 
-    if (empty($questionIds) || $current >= count($questionIds)) {
-        return redirect()->route('practice.summary', $session->id);
-    }
+            if (empty($questionIds) || !isset($questionIds[$current])) {
+                return redirect()->route('practice.summary', $session->id);
+            }
 
-    $question = Question::find($questionIds[$current]);
+            $question = Question::find($questionIds[$current]);
 
-    if (!$question) {
-        return redirect()->route('practice.summary', $session->id);
-    }
+            if (!$question) {
+                return redirect()->route('practice.summary', $session->id);
+            }
 
-    $total = count($questionIds);
-    $streak = session('practice_streak', 0);
-    $points = session('practice_points', 0);
+            $total = count($questionIds);
+            $streak = session('practice_streak', 0);
+            $points = session('practice_points', 0);
 
-    return view('practice.question', compact(
-        'session', 'question', 'current', 'total', 'streak', 'points'
-    ));
-}
+            return view('practice.question', compact(
+                'session', 'question', 'current', 'total', 'streak', 'points'
+            ));
+        }
 
-    // Submit answer
-    public function answer(Request $request, PracticeSession $session)
-    {
+        // Submit answer
+        public function answer(Request $request, PracticeSession $session)
+        {
         $questionIds = session('practice_questions', []);
         $current = session('practice_current', 0);
+
+        if (!isset($questionIds[$current])) {
+            return redirect()->route('practice.summary', $session->id);
+        }
+
         $question = Question::find($questionIds[$current]);
+
+        // Stale page check: the page must be answering the current question
+        if ($request->has('question_id') && (int) $request->input('question_id') !== $question->id) {
+            return redirect()->route('practice.question', $session->id);
+        }
+        
 
         $studentAnswer = $request->input('answer', '');
         $isCorrect = false;
-        
 
-        // Check answer based on type
+        // Blank answer check
         if ($question->type === 'multiple_response') {
+            $picked = is_array($request->input('answer')) ? $request->input('answer') : [];
+            if (empty($picked)) {
+                return back()->withErrors(['answer' => 'Please select at least one answer before submitting.']);
+            }
+        } elseif (trim((string) $request->input('answer', '')) === '') {
+            return back()->withErrors(['answer' => 'Please select an answer before submitting.']);
+        }
+
+    // Check answer based on type
+    if ($question->type === 'multiple_response') {
             $selected = is_array($request->input('answer')) ? $request->input('answer') : [];
             sort($selected);
             $studentAnswer = implode(',', $selected);

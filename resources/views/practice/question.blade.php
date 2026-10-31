@@ -66,6 +66,8 @@
             <form method="POST" action="{{ route('practice.answer', $session->id) }}">
                 @csrf
 
+                <input type="hidden" name="question_id" value="{{ $question->id }}">
+
                 @error('answer')
                 <div class="mb-4 p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-600 font-semibold">
                     ⚠️ {{ $message }}

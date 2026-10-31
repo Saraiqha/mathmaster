@@ -94,14 +94,14 @@
             </p>
             @if($question->type === 'numerical' || $question->type === 'true_false')
                 <p class="text-sm font-bold {{ $isCorrect ? 'text-teal-700' : 'text-rose-600' }}">
-                    {{ $studentAnswer ?: '(no answer)' }}
+                    {{ ($studentAnswer !== '' && $studentAnswer !== null) ? $studentAnswer : '(no answer)' }}
                 </p>
             @else
                 <p class="text-sm font-bold {{ $isCorrect ? 'text-teal-700' : 'text-rose-600' }} lang-en">
-                    {{ $studentAnswer ? getFullAnswer($studentAnswer, $optionMap, 'en') : '(no answer)' }}
+                    {{ ($studentAnswer !== '' && $studentAnswer !== null) ? getFullAnswer($studentAnswer, $optionMap, 'en') : '(no answer)' }}
                 </p>
                 <p class="text-sm font-bold {{ $isCorrect ? 'text-teal-700' : 'text-rose-600' }} lang-bm hidden">
-                    {{ $studentAnswer ? getFullAnswer($studentAnswer, $optionMap, 'bm') : '(tiada jawapan)' }}
+                    {{ ($studentAnswer !== '' && $studentAnswer !== null) ? getFullAnswer($studentAnswer, $optionMap, 'bm') : '(tiada jawapan)' }}
                 </p>
             @endif
         </div>
@@ -114,13 +114,13 @@
                 <span class="lang-bm hidden">Jawapan betul</span>
             </p>
             @if($question->type === 'numerical' || $question->type === 'true_false')
-                <p class="text-sm font-bold text-teal-700">{{ $question->correct_answer }}</p>
+                <p class="text-sm font-bold text-teal-700">{{ ($question->correct_answer !== '' && $question->correct_answer !== null) ? $question->correct_answer : '(no correct answer)' }}</p>
             @else
                 @php
                     $correctKey = $question->type === 'multiple_response' ? $question->correct_answers : $question->correct_answer;
                 @endphp
-                <p class="text-sm font-bold text-teal-700 lang-en">{{ getFullAnswer($correctKey, $optionMap, 'en') }}</p>
-                <p class="text-sm font-bold text-teal-700 lang-bm hidden">{{ getFullAnswer($correctKey, $optionMap, 'bm') }}</p>
+                <p class="text-sm font-bold text-teal-700 lang-en">{{ ($correctKey !== '' && $correctKey !== null) ? getFullAnswer($correctKey, $optionMap, 'en') : '(no correct answer)' }}</p>
+                <p class="text-sm font-bold text-teal-700 lang-bm hidden">{{ ($correctKey !== '' && $correctKey !== null) ? getFullAnswer($correctKey, $optionMap, 'bm') : '(tiada jawapan betul)' }}</p>
             @endif
         </div>
         @endif
