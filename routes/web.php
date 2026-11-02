@@ -50,6 +50,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/practice/session/{session}', [App\Http\Controllers\PracticeController::class, 'question'])->name('practice.question');
     Route::post('/practice/session/{session}/answer', [App\Http\Controllers\PracticeController::class, 'answer'])->name('practice.answer');
     Route::get('/practice/session/{session}/summary', [App\Http\Controllers\PracticeController::class, 'summary'])->name('practice.summary');
+    Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('questions', \App\Http\Controllers\Admin\QuestionController::class)->except('show');
+    Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->only(['index', 'show', 'destroy']);
+    
+});
 });
 
 });

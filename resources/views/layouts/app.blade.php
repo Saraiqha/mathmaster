@@ -102,7 +102,7 @@
 
             {{-- Logo --}}
             <div class="px-5 py-5 border-b border-slate-100">
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-2.5">
+                <a href="{{ auth()->user()->is_admin ? route('admin.dashboard') : route('dashboard') }}" class="flex items-center gap-2.5">
                     <div class="w-9 h-9 bg-teal-500 rounded-xl flex items-center justify-center text-white font-bold text-base shadow-sm">M</div>
                     <div>
                         <p class="text-slate-800 font-bold text-sm leading-tight">MathMaster</p>
@@ -119,6 +119,7 @@
                     <span class="lang-bm hidden">Menu Utama</span>
                 </p>
 
+                @unless(auth()->user()->is_admin)
                 <a href="{{ route('dashboard') }}"
                     class="sidebar-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     <span class="icon">📊</span>
@@ -146,6 +147,26 @@
                     <span class="lang-en">Achievements</span>
                     <span class="lang-bm hidden">Pencapaian</span>
                 </a>
+                @endunless
+
+                @if(auth()->user()->is_admin)
+                <a href="{{ route('admin.dashboard') }}"
+                    class="sidebar-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    <span class="icon">🛠️</span>
+                    <span>Admin Panel</span>
+                </a>
+                <a href="{{ route('admin.questions.index') }}"
+                    class="sidebar-link {{ request()->routeIs('admin.questions.*') ? 'active' : '' }}">
+                    <span class="icon">❓</span>
+                    <span>Questions</span>
+                </a>
+
+                    <a href="{{ route('admin.users.index') }}"
+                    class="sidebar-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                    <span class="icon">🎓</span>
+                    <span>Students</span>
+                </a>
+                @endif
 
                 <a href="{{ route('profile.edit') }}"
                     class="sidebar-link {{ request()->routeIs('profile.*') ? 'active' : '' }}">
