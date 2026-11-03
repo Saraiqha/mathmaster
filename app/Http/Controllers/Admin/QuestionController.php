@@ -15,8 +15,6 @@ class QuestionController extends Controller
         $topics = Topic::orderBy('order')->get();
 
         $query = Question::with('topic')
-            ->orderBy('topic_id')
-            ->orderByRaw("FIELD(difficulty, 'easy', 'medium', 'hard')")
             ->orderBy('id');
 
         if ($request->filled('topic_id')) {
